@@ -3,23 +3,15 @@
     <p class="text-center text-green-500 font-bold text-lg">Add New Crime Entry</p>
     <form class="mt-5 md:w-4/5 mx-auto border px-10 py-8 mb-10 shadow-xl" @submit.prevent="addEntry">
 
-      <div class="px-3 mb-8 md:mb-0">
-        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-first-name">
-          Full Name
-        </label>
-        <input class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Full Name" v-model="form.fullName">
-        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
-      </div>
-
       <div class="md:flex md:flex-wrap mt-5">
         <div class="px-3 mb-6 md:mb-0 md:w-1/2">
-        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-number">
-          Identification Type
+        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-crimeType">
+          Crime Type
         </label>
         <div class="relative">
-        <select class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-state" v-model="form.idType"> 
-          <option value="BVN">BVN</option>
-          <option value="NIN">NIN</option>
+        <select class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-id-crimeType" required v-model="form.type">
+          <!-- <option value="" selected>--select--</option> -->
+          <option :value="type.value" v-for="type in crimeTypes" :key="type.value">{{type.name}}</option>
         </select>
         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-green-500">
           <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -29,54 +21,75 @@
       </div>
 
       <div class="px-3 mb-6 md:mb-0 md:w-1/2">
-        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-number">
-          Identification Number
-        </label>
-        <input class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-id-number" type="text" placeholder="Identification Number(NIN/BVN)" v-model="form.idNumber">
-        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
-      </div>
-      </div>
-
-      <div class="md:flex md:flex-wrap mt-5">
-        <div class="px-3 mb-6 md:mb-0 md:w-1/2">
-        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-number">
-          Gender
-        </label>
+        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-evidence">
+          Evidence Type
+        </label>  
         <div class="relative">
-        <select class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-state" v-model="form.gender"> 
-          <option value="BVN">Male</option>
-          <option value="NIN">Female</option>
-          <option value="NIN">Others</option>
+        <select class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-id-evidence" required v-model="form.evidence">
+          <!-- <option value="" selected>--select--</option> -->
+          <option value="Media_Footage_(video/audio)">Media Footage (video/audio)</option>
+          <option value="Red_Handed">Red Handed</option>
+          <option value="Witness">Witness</option>
         </select>
         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-green-500">
           <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
         </div>
         </div>
+      </div>
+      </div>
+
+      <div class="md:flex md:flex-wrap mt-5">
+        <div class="px-3 mb-6 md:mb-0 md:w-1/2">
+        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-time">
+          Time
+        </label>
+        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-id-time" type="time" placeholder="Identification Number(NIN/BVN)" v-model="form.time">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
       <div class="px-3 mb-6 md:mb-0 md:w-1/2">
-        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-number">
-          Date of birth
+        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-date">
+          Date
         </label>
-        <input class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-id-number" type="date" placeholder="Identification Number(NIN/BVN)" v-model="form.dob">
+        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-id-date" type="date" placeholder="Identification Number(NIN/BVN)" v-model="form.date">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
       </div>
 
       <div class="px-3 mb-8 md:mb-0">
         <label class="block uppercase text-sm text-green-500 mb-2" for="grid-first-name">
-          Address
+          location
         </label>
-        <input class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="address" placeholder="Full Name" v-model="form.address">
+        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="address" placeholder="Location" v-model="form.location">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
-      <div class="text-red-500">
-        
+
+
+      <div class="flex flex-wrap mt-5">
+        <div class="px-3 mb-6 md:mb-0 w-4/5">
+        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-crimeType">
+          Search Suspect
+        </label>
+        <input class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="address" placeholder="Enter BVN or NIN" v-model="searchSuspect">
+        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
+
+      <div class="px-3 mb-6 md:mb-0 md:w-1/5">
+      <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-crimeType">
+          &nbsp;
+        </label>
+        <button class="bg-green-500 text-white rounded py-2 px-4" @click="searchSuspectInfo">search</button>
+      </div>
+      </div>
+
+
+
+      
+
+      
       <div class="px-3 mb-8 md:mb-0">
-        <button class="bg-green-500 text-white rounded w-full py-2" type="submit">Add Suspect</button>
+        <button class="bg-green-500 text-white rounded w-full py-2" type="submit">Add Crime</button>
       </div>
       
     </form>
@@ -88,21 +101,55 @@
 export default {
   data(){
     return {
+      crimeTypes: [
+        {name:'Adultery/Fornication', value: 'Adultery/Fornication'},
+        {name:'Blasphemy', value: 'Blasphemy'},
+        {name:'Burglary', value: 'Burglary'},
+        {name:'Drug Abuse', value: 'Drug_Abuse'},
+        {name:'Fraud', value: 'Fraud'},
+        {name:'Illegal Business', value: 'Illegal_BUSINESS'},
+        {name:'Murder', value: 'Murder'},
+        {name:'Rape', value: 'Rape'},
+        {name:'Robery', value: 'Robery'},
+        {name:'Theft', value: 'Theft'},
+        {name:'Multiple Crimes', value: 'Multiple_Crimes'},
+        {name:'Others', value: 'Others'},
+      ],
       errors: [],
+      searchSuspect: '',
       form: {
-        fullName: '',
-        idType: '',
-        idNumber: '',
-        gender: '',
-        dob: '',
-        address: ''
+        type: '',
+        evidence: '',
+        time: '',
+        date: '',
+        location: '',
+        suspects: []
+      },
+      validations: {
+
       }
     }
   },
   methods: {
     addEntry(){
       console.log(this.form);
+    },
+    searchSuspectInfo(e){
+      e.preventDefault();
+      console.log(this.searchSuspect);
     }
+  },
+  computed:{
+    // validate(){
+    //   if(!this.type) this.errors.push('Type is required');
+    //   if(!this.evidence) this.errors.push('Evidence is required');
+    //   if(!this.time) this.errors.push('Time is required');
+    //   if(!this.date) this.errors.push('Date is required');
+    //   if(!this.date> new Date()) this.errors.push('A crime cannot be commited in the future');
+    //   if(!this.location || this.location.trim().length < 10) this.errors.push('location should be at least 10 characters long');
+    //   if(!this.location) this.errors.push('Location is required');
+    //   return;
+    // }
   }
 }
 </script>
