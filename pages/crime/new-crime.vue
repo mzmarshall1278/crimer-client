@@ -82,18 +82,13 @@
         <button class="bg-green-500 text-white rounded py-2 px-4" @click="searchSuspectInfo">search</button>
       </div>
       </div>
-
-
-
-      
-
       
       <div class="px-3 mb-8 md:mb-0">
         <button class="bg-green-500 text-white rounded w-full py-2" type="submit">Add Crime</button>
       </div>
       
     </form>
-
+  <add-suspect-modal v-if="showModal" @close="showModal=false"/>
   </div>
 </template>
 
@@ -101,7 +96,8 @@
 export default {
   data(){
     return {
-      crimeTypes: [
+        showModal: true,
+        crimeTypes: [
         {name:'Adultery/Fornication', value: 'Adultery/Fornication'},
         {name:'Blasphemy', value: 'Blasphemy'},
         {name:'Burglary', value: 'Burglary'},
@@ -134,6 +130,7 @@ export default {
     addEntry(){
       console.log(this.form);
     },
+
     searchSuspectInfo(e){
       e.preventDefault();
       console.log(this.searchSuspect);
