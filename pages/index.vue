@@ -5,6 +5,9 @@
     <div class="md:grid grid-cols-2 xl:grid-cols-3 gap-5">
       <crime-thumbnail-card v-for="crime in crimes" :key="crime.id" :crime="crime"/>
       </div>
+      <div class="w-full flex justify-center">
+        <nuxt-link to="/crime"><button class="my-10 bg-white text-green-500 py-1 px-4 rounded hover:bg-green-500 hover:text-white">Show all</button></nuxt-link>
+      </div>
     </div>
 </template>
 
@@ -12,6 +15,7 @@
 import crimeThumbnailCard from '~/components/crime-thumbnail-card.vue'
 export default {
   components: { crimeThumbnailCard },
+
   data(){
     return {
       crimes: [
