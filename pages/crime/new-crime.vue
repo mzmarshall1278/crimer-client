@@ -64,14 +64,21 @@
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
+      <div class="px-3 mb-8 md:mb-0" v-if="suspects.length">
+        <p class="text-green-500 font-semibold mb-2">Suspects:</p>
+        <div class="flex justify-between md:mx-10 text-green-500" v-for="(suspect, key) in suspects" :key="key">
+          <p class="sm:pt-4">{{suspect.fullName}}</p> <button @click="remove($event, suspect.id)" class="bg-green-500 text-white rounded py-2 my-2 px-4">remove</button>
+        </div>
+        
+      </div>
 
 
-      <div class="flex flex-wrap mt-5">
-        <div class="px-3 mb-6 md:mb-0 w-4/5">
-        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-crimeType">
+      <div class="md:flex md:flex-wrap mt-5">
+        <div class="px-3 mb-6 md:mb-0 md:w-4/5">
+        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-search">
           Search Suspect
         </label>
-        <input class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="address" placeholder="Enter BVN or NIN" v-model="searchSuspect">
+        <input class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-search" type="address" placeholder="Enter BVN or NIN" v-model="searchSuspect">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
@@ -133,20 +140,17 @@ export default {
 
     searchSuspectInfo(e){
       e.preventDefault();
-      console.log(this.searchSuspect);
+    },
+
+    remove(e, id){
+      e.preventDefault();
+      return this.$store.commit('suspect/removeASuspect', id)
     }
   },
   computed:{
-    // validate(){
-    //   if(!this.type) this.errors.push('Type is required');
-    //   if(!this.evidence) this.errors.push('Evidence is required');
-    //   if(!this.time) this.errors.push('Time is required');
-    //   if(!this.date) this.errors.push('Date is required');
-    //   if(!this.date> new Date()) this.errors.push('A crime cannot be commited in the future');
-    //   if(!this.location || this.location.trim().length < 10) this.errors.push('location should be at least 10 characters long');
-    //   if(!this.location) this.errors.push('Location is required');
-    //   return;
-    // }
+    suspects(){
+      return this.$store.state.suspect.addSuspects
+    }
   }
 }
 </script>

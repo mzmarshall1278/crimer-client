@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="show">
     <div class="bg-white fixed inset-0 w-11/12  fixed overflow-x-hidden z-50 mx-auto my-12" >
     <div class="mt-5">
       <h3 class="text-center text-lg text-green-500 font-semibold">Add Suspect </h3>
@@ -73,7 +73,7 @@
         <label class="block uppercase text-sm text-green-500 mb-2" for="grid-first-name">
           Address
         </label>
-        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="address" placeholder="Full Name" v-model="Sform.address">
+        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="address" placeholder="Address" v-model="Sform.address">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
@@ -95,6 +95,7 @@
 export default {
   data(){
     return {
+      show: true,
       Sform: {
         fullName: '',
         idType: '',
@@ -111,8 +112,11 @@ export default {
     },
     addSuspect(){
       // bubble the data and the event to the parent
-      console.log(this.Sform)
-    }
+      //save suspect to the server first
+      this.$store.commit('suspect/setAddSuspects', {...this.Sform, id: Math.random()});
+      this.show = false;
+       
+    },
   }
 }
 </script>
