@@ -112,7 +112,8 @@
       </div>
       
     </form>
-  <add-suspect-modal v-if="showModal" @close="showModal=false"/>
+  <add-suspect-modal v-if="showAddModal" @close="showAddModal=false"/>
+  <found-suspect-modal v-if="showFoundModal" @close="showFoundModal = false"/>
   </div>
 </template>
 
@@ -120,7 +121,8 @@
 export default {
   data(){
     return {
-        showModal: true,
+        showAddModal: false,
+        showFoundModal: true,
         crimeTypes: [
         {name:'Adultery/Fornication', value: 'Adultery/Fornication'},
         {name:'Blasphemy', value: 'Blasphemy'},
