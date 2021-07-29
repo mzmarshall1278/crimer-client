@@ -106,7 +106,7 @@
       </div>
 
       </div>
-      
+      <!--  -->
       <div class="px-3 mb-8 md:mb-0">
         <button class="bg-green-500 text-white rounded w-full py-2" type="submit">Add Crime</button>
       </div>

@@ -2,7 +2,7 @@
   <!-- component -->
   <div>
     <p class="text-lg text-green-500 text-center font-black">LOGIN</p>
-      <div class="bg-white shadow-2xl  rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-10 mx-auto w-full md:w-2/3">
+      <div class="bg-white shadow-2xl  rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-10 mx-auto w-9/10 md:w-2/3">
     
       <div class="mb-4 mt-4">
         <label class="block text-green-500 text-sm font-bold mb-2" for="username">
@@ -25,14 +25,14 @@
           Forgot Password?
         </a>
       </div>
-
+    {{token}}
   </div>
 </div>
   
 
 </template>
 <script>
-// import * as Cookies from 'js-cookie';
+import * as Cookies from 'js-cookie';
 export default {
   layout: 'auth',
   data(){
@@ -46,18 +46,26 @@ export default {
   methods: {
     async loginUser(){
       try {
+        // this.$store.commit('setLoading', true);
+        // this.$store.commit('setError', null);
+        console.log(this.$store.state.error);
         let response = await this.$auth.loginWith('local', { data: this.login })
-        // Cookies.set('user', response.data.user);
-        // Cookies.set('token', response.data.token, {expires: 3600*11.99})
-        console.log(this.$auth.$state.user);
+        Cookies.set('user', response.data.user);
+        Cookies.set('token', response.data.accessToken, {expires: 3600*11.99})
+        // this.$router.push('/');
         
       } catch (err) {
         console.log(err)
+        // this.$store.commit('setLoading', false);
+        // this.$store.commit('setError', 'Invalid Credentials');
       }
     }
   },
   computed: {
-    
+    token(){
+      // console.log(Cookies.get('token'));
+
+    }
   }
 }
 </script>

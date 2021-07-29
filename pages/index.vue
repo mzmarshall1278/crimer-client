@@ -12,10 +12,19 @@
 </template>
 
 <script>
-import crimeThumbnailCard from '~/components/crime-thumbnail-card.vue'
+import * as Cookies from 'js-cookie';
 export default {
-  components: { crimeThumbnailCard },
 
+  async asyncData({isDev, route, store, env, params, query, req, res, redirect, error, $axios}) {
+    try {
+     const res = await $axios.$get('/crime/', {Headers:{
+       accessToken: 'bearer '+Cookies.get('token')
+     }});
+     console.log(res)
+    } catch (error) {
+      console.log(error);
+    }
+  },
   data(){
     return {
       crimes: [

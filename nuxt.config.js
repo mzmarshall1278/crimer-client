@@ -48,7 +48,7 @@ export default {
           property: 'token',
           global: true,
           // required: true,
-          type: 'Bearer'
+          type: 'bearer'
         },
         user: {
           property: 'user',
@@ -56,7 +56,7 @@ export default {
         },
         endpoints: {
           login: { url: '/auth/login', method: 'post', propertyName: 'token' },
-          logout: { url: '/api/auth/logout', method: 'post' },
+          // logout: { url: '/api/auth/logout', method: 'post' },
           user: {autoFetch: false},
           token: {}
         }
