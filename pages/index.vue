@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="text-center mb-4">Latest Crimes</p>
+    <p class="text-center font-bold text-lg text-green-500 mb-4">Latest Crimes</p>
 
     <div class="md:grid grid-cols-2 xl:grid-cols-3 gap-5">
       <crime-thumbnail-card v-for="crime in crimes" :key="crime.id" :crime="crime"/>

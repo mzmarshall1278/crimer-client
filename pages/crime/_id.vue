@@ -9,11 +9,11 @@
     </div>
     <div>
         <div>
-          <p class="mt-8 text-center">Suspects : <span>{{crime.suspects.length}}</span></p>
+          <p class="mt-8 text-center">Suspects : <span class="font-bold text-green-500">{{crime.suspects.length}}</span></p>
         </div>
         
-        <div class="md:grid grid-cols-2 gap-10 mx-auto mt-5">
-          <suspect-thumbnail-card v-for="suspect in crime.suspects" :key="suspect.name" :suspect="suspect"/>
+        <div class="md:grid grid-cols-2 xl:grid-cols-3 gap-5 mt-2">
+          <suspect-thumbnail-card v-for="suspect in crime.suspects" :key="suspect.id" :suspect="suspect"/>
         </div>
       </div>
   </div>

@@ -8,14 +8,16 @@ export const state = () => ({
       evidence: 'Red Handed',
       suspects: [
         {
-          name: 'zakzaky',
+          id: 1,
+          fullName: 'zakzaky',
           dob: '12/09/1961',
           gender: 'male',
-          identificationType: 'Bvn',
+          identificationType: 'NIN',
           IdentificationNumber: '12345678900'
       
       },{
-          name: 'shekau', 
+          id: 2,
+          fullName: 'shekau', 
           dob: '05/06/1961',
           gender: 'Shemale',
           identificationType: 'BVN',
@@ -31,7 +33,8 @@ export const state = () => ({
       evidence: 'witness',
       suspects: [
         {
-          name: 'shekau', 
+          id: 2,
+          fullName: 'shekau', 
           dob: '05/06/1961',
           gender: 'Shemale',
           identificationType: 'BVN',
@@ -47,12 +50,12 @@ export const state = () => ({
       evidence: 'Media Footage(Video/Audio)',
       suspects: [
         {
-          name: 'AbdulJabbar',
+          id: 3,
+          fullName: 'AbdulJabbar',
           dob: '01/11/1966',
           gender: 'male',
           identificationType: 'NIN',
           IdentificationNumber: '09876543210'
-      
       }
       ],
     }
