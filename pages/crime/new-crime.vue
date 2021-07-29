@@ -73,8 +73,8 @@
       </div>
 
 
-      <div class="md:flex md:flex-wrap mt-5">
-        <div class="px-3 mb-6 md:mb-0 md:w-4/5">
+      <div class="md:flex md:flex-wrap mt-5 bg-green-50 py-4 px-8 mb-4">
+        <div class="px-3 mb-6 md:mb-0 md:w-3/6">
         <label class="block uppercase text-sm text-green-500 mb-2" for="grid-search">
           Search Suspect
         </label>
@@ -82,12 +82,29 @@
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
-      <div class="px-3 mb-6 md:mb-0 md:w-1/5">
+      <div class="px-3 mb-6 md:mb-0 md:w-2/6">
+      <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-crimeType">
+          ID Type
+        </label>
+
+         <div class="relative">
+        <select class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-id-crimeType" required v-model="form.IDType">
+          <option value="BVN">BVN</option>
+          <option value="NIN">NIN</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-green-500">
+          <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+        </div>
+        </div>
+      </div>
+
+      <div class="px-3 mb-6 md:mb-0 md:w-1/6">
       <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-crimeType">
           &nbsp;
         </label>
         <button class="bg-green-500 text-white rounded py-2 px-4" @click="searchSuspectInfo">search</button>
       </div>
+
       </div>
       
       <div class="px-3 mb-8 md:mb-0">
@@ -126,6 +143,7 @@ export default {
         time: '',
         date: '',
         location: '',
+        IDType: '',
         suspects: []
       },
       validations: {

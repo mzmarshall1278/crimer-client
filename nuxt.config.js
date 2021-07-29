@@ -38,6 +38,9 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/auth-next'
   ],
+  axios:{
+    baseURL: 'http://localhost:3000/'
+  },
   auth: {
     strategies: {
       local: {

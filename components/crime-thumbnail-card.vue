@@ -1,6 +1,6 @@
 <template>
   <!-- <div> -->
-    <div class="shadow shadow-xl mb-4 py-6 px-10 rounded border">
+    <div class="shadow shadow-xl my-4 py-6 px-10 rounded border">
         <p class="text-red-500 text-center font-bold text-green-900 text-lg"> {{crime.type}}</p>
         <p class="py-2">Date: <span class="text-green-500">{{crime.date}}</span></p>
         <p class="py-2">Time: <span class="text-green-500">{{crime.time}}</span></p>
