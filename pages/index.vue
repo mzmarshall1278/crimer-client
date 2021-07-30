@@ -15,51 +15,27 @@
 import * as Cookies from 'js-cookie';
 export default {
 
-  async asyncData({isDev, route, store, env, params, query, req, res, redirect, error, $axios}) {
-    try {
-     const res = await $axios.$get('/crime/', {Headers:{
-       accessToken: 'bearer '+Cookies.get('token')
-     }});
-     console.log(res)
-    } catch (error) {
-      console.log(error);
-    }
-  },
   data(){
     return {
-      crimes: [
-        {
-          id: 1,
-          type: 'Murder',
-          date: '12/02/2021',
-          time: '6:14pm',
-          evidence: 'Red Handed',
-          suspects: [
-            {name: 'zakzaky',},{name: 'shekau'}
-          ],
-        },
-        {
-          id: 2,
-          type: 'Rape',
-          date: '12/02/2021',
-          time: '9:10pm',
-          evidence: 'witness',
-          suspects: [
-            {name: 'shekau'}
-          ],
-        },
-        {
-          id: 3,
-          type: 'Robbery',
-          date: '19/02/2021',
-          time: '2:14am',
-          evidence: 'Media Footage(Video/Audio)',
-          suspects: [
-            {name: 'Abduljabbar'}
-          ],
-        }
-
-      ]
+  
+    }
+  },
+  computed: {
+    crimes(){
+      return this.$store.state.crime.crimes;
+    }
+  },
+  async mounted(){
+    try {
+     const res = await this.$axios.get('/crime/', {
+       headers: {
+         authorization: `Bearer ${Cookies.get('token')}`
+       }
+     });
+     
+     this.$store.commit('crime/setCrimes', res.data);
+    } catch (error) {
+      console.log(error);
     }
   }
   }

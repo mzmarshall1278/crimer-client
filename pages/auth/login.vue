@@ -48,11 +48,12 @@ export default {
       try {
         // this.$store.commit('setLoading', true);
         // this.$store.commit('setError', null);
-        console.log(this.$store.state.error);
+        // console.log(this.$store.state.error);
         let response = await this.$auth.loginWith('local', { data: this.login })
         Cookies.set('user', response.data.user);
         Cookies.set('token', response.data.accessToken, {expires: 3600*11.99})
-        // this.$router.push('/');
+        console.log(response);
+        this.$router.push('/');
         
       } catch (err) {
         console.log(err)

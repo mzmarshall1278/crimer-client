@@ -93,6 +93,16 @@
 
 <script>
 export default {
+  props: {
+    iDType: {
+      type: Object,
+      required: true
+    },
+    iDNumber: {
+      type: Object,
+      required: true
+    }
+  },
   data(){
     return {
       show: true,
@@ -113,7 +123,11 @@ export default {
     addSuspect(){
       // bubble the data and the event to the parent
       //save suspect to the server first
-      this.$store.commit('suspect/setAddSuspects', {...this.Sform, id: Math.random()});
+      this.$axios.post('suspect/new', )
+
+
+
+
       this.show = false;
        
     },

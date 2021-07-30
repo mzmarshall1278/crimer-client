@@ -57,38 +57,38 @@
       </div>
 
       <div class="px-3 mb-8 md:mb-0">
-        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-first-name">
+        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-location">
           location
         </label>
-        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="address" placeholder="Location" v-model="form.location">
+        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-location" type="address" placeholder="Location" v-model="form.location">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
       <div class="px-3 mb-8 md:mb-0" v-if="suspects.length">
         <p class="text-green-500 font-semibold mb-2">Suspects:</p>
         <div class="flex justify-between md:mx-10 text-green-500" v-for="(suspect, key) in suspects" :key="key">
-          <p class="sm:pt-4">{{suspect.fullName}}</p> <button @click="remove($event, suspect.id)" class="bg-green-500 text-white rounded py-2 my-2 px-4">remove</button>
+          <p class="sm:pt-4">{{suspect.name}}</p> <button @click="remove($event, suspect.id)" class="bg-green-500 text-white rounded py-2 my-2 px-4">remove</button>
         </div>
         
       </div>
 
 
-      <div class="md:flex md:flex-wrap mt-5 bg-green-50 py-4 px-8 mb-4">
+      <div class="md:flex md:flex-wrap mt-5 bg-green-50 py-4 px-10 mb-4">
         <div class="px-3 mb-6 md:mb-0 md:w-3/6">
         <label class="block uppercase text-sm text-green-500 mb-2" for="grid-search">
           Search Suspect
         </label>
-        <input class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-search" type="address" placeholder="Enter BVN or NIN" v-model="searchSuspect">
+        <input class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-search" type="address" minlength="11" maxlength="11" placeholder="Enter BVN or NIN" v-model="searchSuspect">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
       <div class="px-3 mb-6 md:mb-0 md:w-2/6">
-      <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-crimeType">
+      <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-id-type">
           ID Type
         </label>
 
-         <div class="relative">
-        <select class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-id-crimeType" required v-model="form.IDType">
+        <div class="relative">
+        <select class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-id-id-type" required v-model="iDType">
           <option value="BVN">BVN</option>
           <option value="NIN">NIN</option>
         </select>
@@ -99,10 +99,10 @@
       </div>
 
       <div class="px-3 mb-6 md:mb-0 md:w-1/6">
-      <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-crimeType">
+      <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-button">
           &nbsp;
         </label>
-        <button class="bg-green-500 text-white rounded py-2 px-4" @click="searchSuspectInfo">search</button>
+        <button id="button" class="bg-green-500 text-white rounded py-2 px-4" @click="searchSuspectInfo">search</button>
       </div>
 
       </div>
@@ -112,17 +112,18 @@
       </div>
       
     </form>
-  <add-suspect-modal v-if="showAddModal" @close="showAddModal=false"/>
-  <found-suspect-modal v-if="showFoundModal" @close="showFoundModal = false"/>
+  <add-suspect-modal v-if="showAddModal" @close="showAddModal=false" :iDNumber="searchSuspect" :iDtype="iDType"/>
+  <found-suspect-modal v-if="showFoundModal" @close="showFoundModal = false" :suspect="foundUser"/>
   </div>
 </template>
 
 <script>
+import * as Cookies from 'js-cookie';
 export default {
   data(){
     return {
         showAddModal: false,
-        showFoundModal: true,
+        showFoundModal: false,
         crimeTypes: [
         {name:'Adultery/Fornication', value: 'Adultery/Fornication'},
         {name:'Blasphemy', value: 'Blasphemy'},
@@ -137,20 +138,17 @@ export default {
         {name:'Multiple Crimes', value: 'Multiple_Crimes'},
         {name:'Others', value: 'Others'},
       ],
-      errors: [],
       searchSuspect: '',
+      iDType: '',
       form: {
         type: '',
         evidence: '',
         time: '',
         date: '',
         location: '',
-        IDType: '',
         suspects: []
       },
-      validations: {
-
-      }
+      foundUser: ''
     }
   },
   methods: {
@@ -158,8 +156,24 @@ export default {
       console.log(this.form);
     },
 
-    searchSuspectInfo(e){
+    async searchSuspectInfo(e){
       e.preventDefault();
+   try {
+      const found = await this.$axios.get(`/suspect/allsuspects?${this.iDType}=${this.searchSuspect}`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`
+      }
+    });
+    console.log(found.data);
+      this.foundUser = found.data[0];
+      this.showFoundModal = true;
+      this.showAddModal = false;
+   } catch (error) {
+     console.log(error);
+     this.showFoundModal = false;
+     this.showAddModal = true;
+   }
+
     },
 
     remove(e, id){

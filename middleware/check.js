@@ -8,5 +8,6 @@ export default function(ctx){
   
 
   if(!user || !token){
+    // ctx.redirect('/login')
   }
 }

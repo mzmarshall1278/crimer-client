@@ -6,8 +6,8 @@
     </div>
 <!-- ******************************************************************************************* -->
     <div class="w-3/5 mx-auto my-16">
-      <p class="my-8 mx-auto text-center"> Full Name: <span class="text-green-500">{{suspect.fullName}}</span></p>
-      <p class="my-8 mx-auto text-center"> DOB: <span class="text-green-500">{{suspect.dob}}</span></p>
+      <p class="my-8 mx-auto text-center"> Full Name: <span class="text-green-500">{{suspect.name}}</span></p>
+      <p class="my-8 mx-auto text-center"> DOB: <span class="text-green-500">{{suspect.DOB}}</span></p>
       <p class="my-8 mx-auto text-center"> Gender: <span class="text-green-500">{{suspect.gender}}</span></p>
       <p class="my-8 mx-auto text-center"> ID Type: <span class="text-green-500">{{suspect.identificationType}}</span></p>
       <p class="my-8 mx-auto text-center"> ID Number: <span class="text-green-500">{{suspect.identificationNumber}}</span></p>
@@ -24,18 +24,15 @@
 
 <script>
 export default {
+  props: {
+    suspect: {
+      type: Object,
+      required: true
+    }
+  },
   data(){
     return {
       show: true,
-      suspect: {
-        id: 1,
-        fullName: 'zakzaky',
-        dob: '12/09/1961',
-        gender: 'male',
-        identificationType: 'BVN',
-        identificationNumber: '12345678900',
-        crimes: []
-      }
     }
   },
   methods:{
