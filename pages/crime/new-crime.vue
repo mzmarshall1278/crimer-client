@@ -27,7 +27,7 @@
         <div class="relative">
         <select class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-id-evidence" required v-model="form.evidence">
           <!-- <option value="" selected>--select--</option> -->
-          <option value="Media_Footage_(video/audio)">Media Footage (video/audio)</option>
+          <option value="Media Footage (video/audio)">Media Footage (video/audio)</option>
           <option value="Red_Handed">Red Handed</option>
           <option value="Witness">Witness</option>
         </select>
@@ -88,7 +88,7 @@
         </label>
 
         <div class="relative">
-        <select class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-id-id-type" required v-model="iDType">
+        <select class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-id-id-type" v-model="iDType">
           <option value="BVN">BVN</option>
           <option value="NIN">NIN</option>
         </select>
@@ -146,14 +146,23 @@ export default {
         time: '',
         date: '',
         location: '',
-        suspects: []
       },
       foundUser: ''
     }
   },
   methods: {
-    addEntry(){
-      console.log(this.form);
+    async addEntry(){
+      try {
+        const res = await this.$axios.post('crime/addcrime',
+        {...this.form, suspects: this.suspects }, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`
+        }
+      });
+      return this.$router.push('/');
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
     },
 
     async searchSuspectInfo(e){
@@ -164,7 +173,6 @@ export default {
         Authorization: `Bearer ${Cookies.get('token')}`
       }
     });
-    console.log(found);
     if(found.data.length > 0){
       this.foundUser = found.data[0];
       this.showFoundModal = true;

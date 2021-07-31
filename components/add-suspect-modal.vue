@@ -114,15 +114,15 @@ export default {
     },
     async addSuspect(){
       try {
-        const res = await this.$axios.post('suspect/addsuspect',this.SForm, {
+        const res = await this.$axios.post('suspect/addsuspect',this.Sform, {
         headers: {
           Authorization: `Bearer ${Cookies.get('token')}`
         }
       })
-      console.log(res);
+      this.$store.commit('suspect/setAddSuspects', res.data);
       this.show = false;
       } catch (error) {
-        console.log(error.response.data.message);
+        console.log(error.response.data.messa);
       }
        
     },

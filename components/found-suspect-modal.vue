@@ -40,8 +40,6 @@ export default {
       this.$emit('close')
     },
     addSuspect(){
-      // bubble the data and the event to the parent
-      //save suspect to the server first
       this.$store.commit('suspect/setAddSuspects', this.suspect);
       this.show = false;
        

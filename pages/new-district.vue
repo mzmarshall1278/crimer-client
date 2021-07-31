@@ -6,26 +6,26 @@
 
 
       <div class="px-3 mb-8 md:mb-0">
-        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-first-name">
+        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-username">
           Username
         </label>
-        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="username" v-model="form.username">
+        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-username" type="text" placeholder="username" v-model="form.username" minlength="5" maxlength="20">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
       <div class="px-3 mb-8 md:mb-0">
-        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-first-name">
+        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-district">
           District
         </label>
-        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="district" v-model="form.district">
+        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-district" type="text" placeholder="district" v-model="form.district" minlength="5" maxlength="20">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
       <div class="px-3 mb-8 md:mb-0">
-        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-first-name">
+        <label class="block uppercase text-sm text-green-500 mb-2" for="grid-password">
           Password
         </label>
-        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="password" placeholder="password" v-model="form.password">
+        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-password" type="password" placeholder="password" v-model="form.password" minlength="8" maxlength="20">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import * as Cookies from 'js-cookie'
 export default {
   data(){
     return {
@@ -50,13 +51,20 @@ export default {
     }
   },
   methods: {
-    addEntry(){
-      console.log(this.form);
-    },
-
-   
-  },
-  computed:{
-  }
+    async addEntry(){
+      try {
+        const res = await this.$axios.post('/auth/create',
+        this.form, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`
+        }
+      });
+      console.log(res)
+      return this.$router.push('/');
+      } catch (error) {
+        console.log(error.response);
+      }
+    }
+    }
 }
 </script>
