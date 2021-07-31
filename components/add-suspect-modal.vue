@@ -12,7 +12,7 @@
         <label class="block uppercase text-sm text-green-500 mb-2" for="grid-first-name">
           Full Name
         </label>
-        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Full Name" v-model="Sform.fullName">
+        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Full Name" v-model="Sform.name">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
 
@@ -22,7 +22,7 @@
           Identification Type
         </label>
         <div class="relative">
-        <select required class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-state" v-model="Sform.idType"> 
+        <select required class="block appearance-none w-full bg-white border border-green-500 text-green-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500 " id="grid-state" v-model="Sform.identificationType"> 
           <option value="BVN">BVN</option>
           <option value="NIN">NIN</option>
         </select>
@@ -37,7 +37,7 @@
         <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-number">
           Identification Number
         </label>
-        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-id-number" type="text" minlength="11" maxlength="11" placeholder="Identification Number(NIN/BVN)" v-model="Sform.idNumber">
+        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-id-number" type="text" minlength="11" maxlength="11" placeholder="Identification Number(NIN/BVN)" v-model="Sform.identificationNumber">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
       </div>
@@ -64,7 +64,7 @@
         <label class="block uppercase text-sm text-green-500 mb-2" for="grid-id-number">
           Date of birth
         </label>
-        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-id-number" type="date" placeholder="Identification Number(NIN/BVN)" v-model="Sform.dob">
+        <input required class="appearance-none block w-full text-green-700 border border-green-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-id-number" type="date" placeholder="Identification Number(NIN/BVN)" v-model="Sform.DOB">
         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
       </div>
       </div>
@@ -92,26 +92,18 @@
 </template>
 
 <script>
+import * as Cookies from 'js-cookie';
 export default {
-  props: {
-    iDType: {
-      type: Object,
-      required: true
-    },
-    iDNumber: {
-      type: Object,
-      required: true
-    }
-  },
+  
   data(){
     return {
       show: true,
       Sform: {
-        fullName: '',
-        idType: '',
-        idNumber: '',
+        name: '',
+        identificationType: '',
+        identificationNumber: '',
         gender: '',
-        dob: '',
+        DOB: '',
         address: ''
       }
     }
@@ -120,15 +112,18 @@ export default {
     closeModal(){
       this.$emit('close')
     },
-    addSuspect(){
-      // bubble the data and the event to the parent
-      //save suspect to the server first
-      this.$axios.post('suspect/new', )
-
-
-
-
+    async addSuspect(){
+      try {
+        const res = await this.$axios.post('suspect/addsuspect',this.SForm, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`
+        }
+      })
+      console.log(res);
       this.show = false;
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
        
     },
   }

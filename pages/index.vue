@@ -32,7 +32,6 @@ export default {
          authorization: `Bearer ${Cookies.get('token')}`
        }
      });
-     
      this.$store.commit('crime/setCrimes', res.data);
     } catch (error) {
       console.log(error);

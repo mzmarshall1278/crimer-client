@@ -112,7 +112,7 @@
       </div>
       
     </form>
-  <add-suspect-modal v-if="showAddModal" @close="showAddModal=false" :iDNumber="searchSuspect" :iDtype="iDType"/>
+  <add-suspect-modal v-if="showAddModal" @close="showAddModal=false" />
   <found-suspect-modal v-if="showFoundModal" @close="showFoundModal = false" :suspect="foundUser"/>
   </div>
 </template>
@@ -164,16 +164,19 @@ export default {
         Authorization: `Bearer ${Cookies.get('token')}`
       }
     });
-    console.log(found.data);
+    console.log(found);
+    if(found.data.length > 0){
       this.foundUser = found.data[0];
       this.showFoundModal = true;
       this.showAddModal = false;
+    }else if(found.data.length == 0){
+      this.showFoundModal = false;
+      this.showAddModal = true;
+    }
+      
    } catch (error) {
      console.log(error);
-     this.showFoundModal = false;
-     this.showAddModal = true;
    }
-
     },
 
     remove(e, id){
