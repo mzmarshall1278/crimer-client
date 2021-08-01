@@ -21,14 +21,19 @@
             </nuxt-link></a>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item" v-if="user !== 'headquarters'">
             <a class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" ><nuxt-link to="/crime/new-crime">
               <i class="fab fa-facebook-square text-lg leading-lg text-white opacity-75" /><span class="ml-2">New</span>
             </nuxt-link></a>
           </li>
           
+          <li class="nav-item" v-if="user === 'headquarters'">
+            <a class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" ><nuxt-link to="/all-districts">
+              <i class="fab fa-facebook-square text-lg leading-lg text-white opacity-75" /><span class="ml-2">Districts</span>
+            </nuxt-link></a>
+          </li>
 
-          <li class="nav-item">
+          <li class="nav-item" v-if="!user">
             <a class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75" ><nuxt-link to="/auth/login">
               <i class="fab fa-pinterest text-lg leading-lg text-white opacity-75" /><span class="ml-2">login</span>
             </nuxt-link></a>

@@ -69,6 +69,7 @@ export default {
         // console.log(error.response);
         this.$store.commit('setLoading', false);
         this.$store.commit('setError', error.response.data.message);
+        this.$router.push('/');
       }
     }
     }

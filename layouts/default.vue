@@ -23,6 +23,7 @@ export default {
     success(){
       return this.$store.state.success;
     }
-  }
+  },
+  
 }
 </script>
