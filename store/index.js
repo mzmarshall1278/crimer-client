@@ -1,14 +1,19 @@
 import Cookies from "js-cookie";
 
 export const state = () => ({
-  error: null,
+  error: [],
   loading: false,
+  success: '',
   token: null
 })
 
 export const mutations = {
   setError(state, pl){
     state.error = pl;
+  },
+
+  setSuccess(state, pl){
+    state.success = pl;
   },
 
   setLoading(state, pl){
