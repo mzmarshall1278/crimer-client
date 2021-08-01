@@ -27,14 +27,19 @@ export default {
   },
   async mounted(){
     try {
+      this.$store.commit('setLoading', true);
+      this.$store.commit('setError', []);
      const res = await this.$axios.get('/crime/', {
        headers: {
          authorization: `Bearer ${Cookies.get('token')}`
        }
      });
      this.$store.commit('crime/setCrimes', res.data );
+     this.$store.commit('setLoading', false);
     } catch (error) {
-      console.log(error);
+      this.$store.commit('setLoading', false);
+      this.$store.commit('setError', error.response.data.message);
+      // console.log(error);
     }
   }
   }

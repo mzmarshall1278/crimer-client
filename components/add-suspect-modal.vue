@@ -114,6 +114,8 @@ export default {
     },
     async addSuspect(){
       try {
+        this.$store.commit('setLoading', true);
+        this.$store.commit('setError', []);
         const res = await this.$axios.post('suspect/addsuspect',this.Sform, {
         headers: {
           Authorization: `Bearer ${Cookies.get('token')}`
@@ -121,8 +123,12 @@ export default {
       })
       this.$store.commit('suspect/setAddSuspects', res.data);
       this.show = false;
+      this.$store.commit('setLoading', false);
+        this.$store.commit('setSuccess', 'Suspect successfully added');
       } catch (error) {
-        console.log(error.response.data.messa);
+        // console.log(error.response.data.message);
+        this.$store.commit('setLoading', false);
+        this.$store.commit('setError', error.response.data.message);
       }
        
     },

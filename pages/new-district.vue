@@ -53,16 +53,22 @@ export default {
   methods: {
     async addEntry(){
       try {
+        this.$store.commit('setLoading', true);
+        this.$store.commit('setError', []);
         const res = await this.$axios.post('/auth/create',
         this.form, {
         headers: {
           Authorization: `Bearer ${Cookies.get('token')}`
         }
       });
-      console.log(res)
+      // console.log(res)
+      this.$store.commit('setLoading', false);
+        this.$store.commit('setSuccess', 'District added successfully');
       return this.$router.push('/');
       } catch (error) {
-        console.log(error.response);
+        // console.log(error.response);
+        this.$store.commit('setLoading', false);
+        this.$store.commit('setError', error.response.data.message);
       }
     }
     }

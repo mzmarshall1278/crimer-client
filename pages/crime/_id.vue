@@ -34,15 +34,21 @@ export default {
   },
   async mounted(){
     try {
+      this.$store.commit('setLoading', true);
+        this.$store.commit('setError', []);
       const res = await this.$axios.get(`/crime/single/${this.$route.params.id}`, {
         headers: {
           authorization: `Bearer ${Cookies.get('token')}`
         }
       });
-      console.log(res.data);
+      this.$store.commit('setLoading', false);
+        // this.$store.commit('setSuccess', 'Login successful.');
+      // console.log(res.data);
       this.crime = res.data
     } catch (error) {
-     console.log(error.response) 
+    //  console.log(error.response) 
+      this.$store.commit('setLoading', false);
+      this.$store.commit('setError', error.response.data.message);
     }
   }
 }

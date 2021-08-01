@@ -114,14 +114,19 @@ export default {
     async search(){
       try {
         // this.$store.commit('')
+        this.$store.commit('setLoading', true);
+        this.$store.commit('setError', []);
       let res = await this.$axios.$get(this.url, {
         headers: {
           Authorization : `Bearer ${Cookies.get('token')}`
         }
       });
-      console.log(res);
+      this.$store.commit('setLoading', false);
+        // this.$store.commit('setSuccess', 'Login successful.');
+      // console.log(res);
       } catch (error) {
-        console.log(error);
+        this.$store.commit('setLoading', false);
+        this.$store.commit('setError', error.response.data.message);
       }
     }
   }

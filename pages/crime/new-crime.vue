@@ -153,27 +153,35 @@ export default {
   methods: {
     async addEntry(){
       try {
+        this.$store.commit('setLoading', true);
+        this.$store.commit('setError', []);
         const res = await this.$axios.post('crime/addcrime',
         {...this.form, suspects: this.suspects }, {
         headers: {
           Authorization: `Bearer ${Cookies.get('token')}`
         }
       });
+        this.$store.commit('setLoading', false);
+        this.$store.commit('setSuccess', 'Crime saved successfully.');
       return this.$router.push('/');
       } catch (error) {
-        console.log(error.response.data.message);
+        // console.log(error.response.data.message);
+        this.$store.commit('setLoading', false);
+        this.$store.commit('setError', error.response.data.message);
       }
     },
 
     async searchSuspectInfo(e){
       e.preventDefault();
-   try {
+        try {
+          this.$store.commit('setLoading', true);
+          this.$store.commit('setError', []);
       const found = await this.$axios.get(`/suspect/allsuspects?${this.iDType}=${this.searchSuspect}`, {
       headers: {
         Authorization: `Bearer ${Cookies.get('token')}`
       }
-    });
-    if(found.data.length > 0){
+      });
+      if(found.data.length > 0){
       this.foundUser = found.data[0];
       this.showFoundModal = true;
       this.showAddModal = false;
@@ -181,9 +189,12 @@ export default {
       this.showFoundModal = false;
       this.showAddModal = true;
     }
-      
+        this.$store.commit('setLoading', false);
+        // this.$store.commit('setSuccess', ' successful.');
    } catch (error) {
-     console.log(error);
+    //  console.log(error);
+        this.$store.commit('setLoading', false);
+        this.$store.commit('setError', error.response.data.message);
    }
     },
 

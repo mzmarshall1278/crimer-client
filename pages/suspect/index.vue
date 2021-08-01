@@ -8,16 +8,30 @@
     </div>
 </template>
 <script>
+import * as  Cookies from 'js-cookie';
 import suspectThumbnailCard from '~/components/suspect-thumbnail-card.vue';
 export default {
   components: { suspectThumbnailCard },
   data(){
     return {
+      suspects: []
     }
   },
-  computed: {
-    suspects(){
-      return this.$store.state.suspect.suspects;
+  async mounted(){
+    try {
+      this.$store.commit('setLoading', true);
+      this.$store.commit('setError', []);
+     const res = await this.$axios.get('/suspect/allsuspects', {
+       headers: {
+         authorization: `Bearer ${Cookies.get('token')}`
+       }
+     });
+     this.suspects = res.data;
+     this.$store.commit('setLoading', false);
+    } catch (error) {
+      this.$store.commit('setLoading', false);
+      this.$store.commit('setError', error.response.data.message);
+      // console.log(error);
     }
   }
   }

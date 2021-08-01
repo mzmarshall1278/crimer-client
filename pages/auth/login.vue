@@ -57,7 +57,6 @@ export default {
         this.$router.push('/');
         
       } catch (err) {
-        console.log(err.response.data.message)
         this.$store.commit('setLoading', false);
         this.$store.commit('setError', err.response.data.message);
       }
